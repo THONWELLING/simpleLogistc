@@ -16,7 +16,7 @@ public class ClientController {
   public List<Client> getAllClients() {
     Client client = new Client();
     client.setId(1L);
-    client.setName("ThonWelling");
+    client.setName("ThonWelling2");
     client.setEmail("thonwelling@gmail.com");
     client.setTelefone("(11) 9 9759-4156");
 

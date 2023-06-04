@@ -1,23 +1,29 @@
 package com.thonwelling.simpleLogistic.controllers;
 
 import com.thonwelling.simpleLogistic.models.Client;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import com.thonwelling.simpleLogistic.repositories.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/clients/v1")
 public class ClientController {
-
-  @PersistenceContext
-  private EntityManager manager;
+  @Autowired
+  ClientRepository repository;
   @GetMapping
   public List<Client> getAllClients() {
-    return manager.createQuery("from Client", Client.class).getResultList();
+    return repository.findAll();
+  }
+  @GetMapping("/name")
+  public List<Client> getClientByName() {
+    return repository.findByName("Margarethe Cheek");
+  }
+  @GetMapping("/partname")
+  public List<Client> getClientByNameContaining() {
+    return repository.findByNameContaining("ga");
   }
 }

@@ -1,23 +1,23 @@
 package com.thonwelling.simpleLogistic.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
 @Getter
+@NoArgsConstructor
 @Setter
 public class Client {
 
+  @EqualsAndHashCode.Include
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
   private String email;
-  private String telefone;
+  @Column(name = "phone")
+  private String phoneNumber;
 }

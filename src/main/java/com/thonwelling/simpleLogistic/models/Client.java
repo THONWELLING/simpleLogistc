@@ -3,6 +3,7 @@ package com.thonwelling.simpleLogistic.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -20,8 +21,9 @@ public class Client {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NotEmpty(message = "O Campo Name Não Pode Ser Vazio.")
   @NotBlank
-  @Size(max = 60)
+  @Size(min = 3, max =50, message = "'${validatedValue}' precisa estar entre {min} e {max} caracteres.")
   private String name;
 
   @NotBlank

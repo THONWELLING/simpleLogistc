@@ -2,6 +2,7 @@ package com.thonwelling.simpleLogistic.controllers;
 
 import com.thonwelling.simpleLogistic.models.Client;
 import com.thonwelling.simpleLogistic.repositories.ClientRepository;
+import com.thonwelling.simpleLogistic.services.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,30 +16,32 @@ import java.util.List;
 public class ClientController {
   @Autowired
   ClientRepository repository;
+  @Autowired
+  ClientService service;
   @GetMapping
   public List<Client> getAllClients() {
-    return repository.findAll();
+    return service.getAllClients();
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<Client> getClientById(@PathVariable Long id) {
-    return repository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    return service.getClientById(id);
   }
 
   @GetMapping("/name")
   public List<Client> getClientByName() {
-    return repository.findByName("Margarethe Cheek");
+    return service.getClientByName("Margarethe Cheek");
   }
 
   @GetMapping("/partname")
   public List<Client> getClientByNameContaining() {
-    return repository.findByNameContaining("ga");
+    return service.getClientByNameContaining("ga");
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Client createClient(@Valid @RequestBody Client client) {
-    return repository.save(client);
+    return service.createClient(client);
   }
 
   @PutMapping("/{id}")
@@ -47,7 +50,7 @@ public class ClientController {
       return ResponseEntity.notFound().build();
     }
     client.setId(id);
-    client =  repository.save(client);
+    client =  service.createClient(client);
     return ResponseEntity.ok(client);
   }
 
@@ -56,7 +59,7 @@ public class ClientController {
     if (!repository.existsById(id)) {
       return ResponseEntity.notFound().build();
     }
-    repository.deleteById(id);
+    service.deleteClient(id);
     return ResponseEntity.noContent().build();
   }
 }

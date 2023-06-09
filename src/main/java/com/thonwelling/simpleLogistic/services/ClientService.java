@@ -15,6 +15,11 @@ public class ClientService {
   @Autowired
   ClientRepository repository;
 
+  public Client get(Long id) {
+    return repository.findById(id)
+        .orElseThrow(() -> new BusinesException("Client Not Found"));
+  }
+
   public List<Client> getClientByNameContaining(String name) {
     return repository.findByNameContaining(name);
   }

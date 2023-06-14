@@ -1,11 +1,9 @@
 package com.thonwelling.simpleLogistic.services;
 
 
-import com.thonwelling.simpleLogistic.exception.BusinesException;
 import com.thonwelling.simpleLogistic.models.Client;
 import com.thonwelling.simpleLogistic.models.Delivery;
 import com.thonwelling.simpleLogistic.models.DeliveryStatus;
-import com.thonwelling.simpleLogistic.repositories.ClientRepository;
 import com.thonwelling.simpleLogistic.repositories.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

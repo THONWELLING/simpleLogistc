@@ -1,6 +1,8 @@
 package com.thonwelling.simpleLogistic.controllers;
 
 import com.thonwelling.simpleLogistic.models.Delivery;
+import com.thonwelling.simpleLogistic.models.dto.DeliveryDTO;
+import com.thonwelling.simpleLogistic.models.dto.RecipientDTO;
 import com.thonwelling.simpleLogistic.repositories.DeliveryRepository;
 import com.thonwelling.simpleLogistic.services.DeliveryOrderRequestService;
 import jakarta.validation.Valid;
@@ -32,8 +34,24 @@ public class DeliveryController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Delivery> getDelyveryById(@PathVariable Long id) {
-    return deliveryRepository.findById(id).map(ResponseEntity::ok)
+  public ResponseEntity<DeliveryDTO> getDelyveryById(@PathVariable Long id) {
+    return deliveryRepository.findById(id).map(delivery -> {
+          DeliveryDTO deliveryDTO = new DeliveryDTO();
+          deliveryDTO.setId(delivery.getId());
+          deliveryDTO.setClientName(delivery.getClient().getName());
+          deliveryDTO.setRecipient(new RecipientDTO());
+          deliveryDTO.getRecipient().setName(delivery.getRecipient().getName());
+          deliveryDTO.getRecipient().setStreet(delivery.getRecipient().getStreet());
+          deliveryDTO.getRecipient().setNumber(delivery.getRecipient().getNumber());
+          deliveryDTO.getRecipient().setComplement(delivery.getRecipient().getComplement());
+          deliveryDTO.getRecipient().setNeiborhood(delivery.getRecipient().getNeighborhood());
+          deliveryDTO.setTax(delivery.getTax());
+          deliveryDTO.setDeliveryStatus(delivery.getDeliveryStatus());
+          deliveryDTO.setOrderDate(delivery.getOrderDate());
+          deliveryDTO.setCompletionDate(delivery.getCompletionDate());
+
+          return ResponseEntity.ok(deliveryDTO);
+        })
         .orElse(ResponseEntity.notFound().build());
   }
 }
